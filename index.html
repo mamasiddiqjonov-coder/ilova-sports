@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="theme-color" content="#0a0a0a"/>
+<title>FITPATH — Shaxsiy sport dasturing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:#050505;font-family:'DM Sans',sans-serif;}
+.wrap{display:flex;justify-content:center;align-items:center;min-height:100vh;padding:24px 0;}
+.phone{width:340px;height:720px;background:#0a0a0a;border-radius:36px;border:1.5px solid #222;overflow:hidden;position:relative;box-shadow:0 0 60px rgba(200,255,0,0.06);}
+
+/* ===== ONBOARDING SCREENS ===== */
+.screen{position:absolute;inset:0;padding:44px 24px 32px;display:none;flex-direction:column;}
+.screen.active{display:flex;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:#c8ff00;}
+.logo span{color:#f0f0f0;}
+.tagline{font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.hero-num{font-family:'Bebas Neue',sans-serif;font-size:120px;line-height:1;color:#161616;position:absolute;bottom:160px;right:-8px;letter-spacing:-4px;}
+.s1-bottom{margin-top:auto;position:relative;z-index:1;}
+.big-title{font-family:'Bebas Neue',sans-serif;font-size:46px;line-height:1.05;letter-spacing:1px;color:#f0f0f0;margin-bottom:8px;}
+.big-title em{color:#c8ff00;font-style:normal;}
+.desc{font-size:13px;color:#666;line-height:1.6;margin-bottom:12px;}
+.loss-tag{background:rgba(255,77,0,0.1);border:1px solid rgba(255,77,0,0.3);border-radius:8px;padding:8px 12px;font-size:12px;color:#ff6a2f;margin-bottom:20px;line-height:1.4;}
+.loss-tag b{color:#ff4d00;}
+.btn{padding:16px 28px;border-radius:12px;border:none;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.btn-primary{background:#c8ff00;color:#000;width:100%;}
+.btn-primary:hover{background:#d4ff1a;}
+.btn-primary:active{transform:scale(0.98);}
+.btn-center{background:#c8ff00;color:#000;padding:16px 40px;display:block;margin:0 auto;}
+.btn-ghost{background:transparent;color:#555;border:1px solid #222;width:100%;margin-top:8px;}
+.label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c8ff00;margin-bottom:20px;}
+.s-title{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1.05;color:#f0f0f0;margin-bottom:6px;}
+.s-sub{font-size:12px;color:#555;margin-bottom:18px;line-height:1.5;}
+.personal-tag{background:rgba(200,255,0,0.07);border:1px solid rgba(200,255,0,0.2);border-radius:8px;padding:8px 12px;font-size:12px;color:#a8d900;margin-bottom:14px;line-height:1.4;}
+.inp{width:100%;background:#111;border:1px solid #222;border-radius:10px;padding:16px 18px;font-size:14px;color:#f0f0f0;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;}
+.inp:focus{border-color:#c8ff00;}
+.inp::placeholder{color:#444;}
+.privacy{font-size:11px;color:#333;line-height:1.5;margin-top:10px;}
+.privacy b{color:#c8ff00;font-weight:400;}
+.dots{display:flex;gap:4px;justify-content:center;margin-bottom:14px;}
+.dot{width:4px;height:4px;border-radius:2px;background:#222;transition:all 0.3s;}
+.dot.on{width:14px;background:#c8ff00;}
+.qstep{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#444;margin-bottom:6px;}
+.qbar{width:100%;height:2px;background:#1a1a1a;border-radius:2px;margin-bottom:18px;overflow:hidden;}
+.qfill{height:100%;background:#c8ff00;border-radius:2px;transition:width 0.4s ease;}
+.opts{display:flex;flex-direction:column;gap:7px;flex:1;}
+.opt{background:#111;border:1px solid #222;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all 0.2s;font-size:13px;color:#f0f0f0;}
+.opt:hover{border-color:#333;}
+.opt.sel{border-color:#c8ff00;background:rgba(200,255,0,0.04);}
+.opt-ico{font-size:17px;width:26px;text-align:center;flex-shrink:0;}
+.opt-txt{flex:1;}
+.opt-chk{width:17px;height:17px;border-radius:50%;border:1.5px solid #333;margin-left:auto;flex-shrink:0;transition:all 0.2s;}
+.opt.sel .opt-chk{background:#c8ff00;border-color:#c8ff00;}
+.num-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.num-btn{width:42px;height:42px;border-radius:10px;background:#111;border:1px solid #222;color:#f0f0f0;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.num-btn:hover{border-color:#c8ff00;color:#c8ff00;}
+.num-val{font-family:'Bebas Neue',sans-serif;font-size:50px;color:#c8ff00;line-height:1;flex:1;text-align:center;}
+.num-unit{font-size:12px;color:#555;text-align:center;margin-bottom:12px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.opt2{background:#111;border:1px solid #222;border-radius:12px;padding:14px 10px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.opt2:hover{border-color:#333;}
+.opt2.sel{border-color:#c8ff00;background:rgba(200,255,0,0.04);}
+.opt2-ico{font-size:22px;margin-bottom:6px;}
+.opt2-txt{font-size:12px;color:#888;}
+.opt2.sel .opt2-txt{color:#c8ff00;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.opt3{background:#111;border:1px solid #222;border-radius:12px;padding:14px 8px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.opt3:hover{border-color:#333;}
+.opt3.sel{border-color:#c8ff00;background:rgba(200,255,0,0.04);}
+.opt3-ico{font-size:24px;margin-bottom:8px;}
+.opt3-txt{font-size:11px;color:#888;line-height:1.3;}
+.opt3.sel .opt3-txt{color:#c8ff00;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;background:#111;border:1px solid #222;border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+.toggle-label{font-size:13px;color:#f0f0f0;}
+.toggle-sub{font-size:11px;color:#444;margin-top:2px;}
+.toggle{width:44px;height:24px;border-radius:12px;background:#222;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0;}
+.toggle.on{background:#c8ff00;}
+.toggle-knob{width:18px;height:18px;border-radius:50%;background:#555;position:absolute;top:3px;left:3px;transition:all 0.2s;}
+.toggle.on .toggle-knob{background:#000;left:23px;}
+.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;}
+.topt{background:#111;border:1px solid #222;border-radius:12px;padding:12px 10px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.topt:hover{border-color:#333;}
+.topt.sel{border-color:#c8ff00;background:rgba(200,255,0,0.04);}
+.topt-ico{font-size:20px;margin-bottom:5px;}
+.topt-main{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#f0f0f0;line-height:1;}
+.topt.sel .topt-main{color:#c8ff00;}
+.topt-sub{font-size:11px;color:#555;margin-top:2px;}
+.natija-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;}
+.nopt{background:#111;border:1px solid #222;border-radius:12px;padding:14px 10px;cursor:pointer;transition:all 0.2s;text-align:center;display:flex;flex-direction:column;justify-content:center;}
+.nopt:hover{border-color:#333;}
+.nopt.sel{border-color:#c8ff00;background:rgba(200,255,0,0.04);}
+.nopt-kun{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#f0f0f0;line-height:1;margin-bottom:2px;}
+.nopt.sel .nopt-kun{color:#c8ff00;}
+.nopt-label{font-size:11px;color:#555;margin-bottom:6px;}
+.nopt-badge{font-size:10px;padding:3px 8px;border-radius:20px;background:#1a1a1a;color:#555;display:inline-block;}
+.nopt.sel .nopt-badge{background:rgba(200,255,0,0.1);color:#c8ff00;}
+.sico{width:64px;height:64px;border-radius:50%;background:rgba(200,255,0,0.08);border:1px solid rgba(200,255,0,0.2);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:12px;}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.res-card{background:#111;border:1px solid #222;border-radius:12px;padding:10px 12px;}
+.res-label{font-size:10px;color:#444;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;}
+.res-val{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#c8ff00;line-height:1;}
+.loss-small{font-size:11px;color:#ff6a2f;margin-bottom:12px;line-height:1.5;}
+
+/* ===== MAIN APP ===== */
+.app{position:absolute;inset:0;display:none;flex-direction:column;}
+.app.active{display:flex;}
+.app-body{flex:1;overflow-y:auto;padding:44px 20px 90px;}
+.app-body::-webkit-scrollbar{width:0;}
+.view{display:none;}
+.view.active{display:block;}
+
+/* Top greeting */
+.greet-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.greet-hi{font-size:12px;color:#555;}
+.greet-name{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#f0f0f0;letter-spacing:1px;line-height:1;margin-top:2px;}
+.avatar{width:42px;height:42px;border-radius:12px;background:rgba(200,255,0,0.1);border:1px solid rgba(200,255,0,0.25);display:flex;align-items:center;justify-content:center;font-size:18px;}
+
+/* Stat strip */
+.stat-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;}
+.stat-box{background:#111;border:1px solid #1d1d1d;border-radius:14px;padding:12px 8px;text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#c8ff00;line-height:1;}
+.stat-lbl{font-size:10px;color:#555;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;}
+
+/* Today workout card */
+.today-card{background:linear-gradient(135deg,rgba(200,255,0,0.12),rgba(200,255,0,0.02));border:1px solid rgba(200,255,0,0.25);border-radius:18px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden;}
+.today-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#a8d900;margin-bottom:8px;}
+.today-title{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#f0f0f0;line-height:1;margin-bottom:6px;}
+.today-meta{display:flex;gap:14px;margin-bottom:14px;}
+.today-meta span{font-size:12px;color:#888;display:flex;align-items:center;gap:4px;}
+.today-done{background:rgba(200,255,0,0.1);border:1px solid rgba(200,255,0,0.3);border-radius:12px;padding:14px;text-align:center;color:#c8ff00;font-size:14px;font-weight:500;}
+
+/* Section title */
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#f0f0f0;letter-spacing:1px;margin:18px 0 10px;display:flex;align-items:center;justify-content:space-between;}
+.sec-title .more{font-family:'DM Sans';font-size:11px;color:#c8ff00;letter-spacing:0;}
+
+/* Exercise list item */
+.ex-item{background:#111;border:1px solid #1d1d1d;border-radius:14px;padding:12px;display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.ex-ico{width:44px;height:44px;border-radius:12px;background:#181818;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.ex-info{flex:1;min-width:0;}
+.ex-name{font-size:14px;color:#f0f0f0;font-weight:500;}
+.ex-sub{font-size:11px;color:#555;margin-top:2px;}
+.ex-badge{font-size:11px;color:#c8ff00;background:rgba(200,255,0,0.08);padding:4px 10px;border-radius:8px;flex-shrink:0;}
+
+/* Program cards */
+.prog-card{background:#111;border:1px solid #1d1d1d;border-radius:16px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;}
+.prog-card:hover{border-color:#333;}
+.prog-card.active-prog{border-color:#c8ff00;background:rgba(200,255,0,0.04);}
+.prog-top{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.prog-ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;background:#181818;}
+.prog-name{font-size:15px;color:#f0f0f0;font-weight:600;}
+.prog-tag{font-size:11px;color:#555;margin-top:2px;}
+.prog-desc{font-size:12px;color:#666;line-height:1.5;}
+.prog-cur{font-size:10px;color:#c8ff00;background:rgba(200,255,0,0.1);padding:3px 8px;border-radius:6px;margin-left:auto;}
+
+/* Progress */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:8px;}
+.cal-cell{aspect-ratio:1;border-radius:8px;background:#141414;display:flex;align-items:center;justify-content:center;font-size:11px;color:#444;}
+.cal-cell.done{background:rgba(200,255,0,0.15);color:#c8ff00;border:1px solid rgba(200,255,0,0.3);}
+.cal-cell.today{border:1px solid #c8ff00;}
+.weight-log{background:#111;border:1px solid #1d1d1d;border-radius:14px;padding:14px;}
+.weight-input-row{display:flex;gap:8px;margin-bottom:12px;}
+.weight-input-row .inp{padding:12px 14px;}
+.w-add{background:#c8ff00;color:#000;border:none;border-radius:10px;padding:0 18px;font-weight:600;cursor:pointer;flex-shrink:0;}
+.w-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #181818;font-size:13px;}
+.w-item:last-child{border-bottom:none;}
+.w-date{color:#555;}
+.w-val{color:#c8ff00;font-family:'Bebas Neue';font-size:18px;}
+
+/* Profile */
+.prof-head{text-align:center;margin-bottom:20px;}
+.prof-avatar{width:72px;height:72px;border-radius:50%;background:rgba(200,255,0,0.1);border:1px solid rgba(200,255,0,0.3);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 10px;}
+.prof-email{font-size:13px;color:#888;}
+.prof-goal{font-size:11px;color:#c8ff00;margin-top:4px;}
+.info-row{display:flex;justify-content:space-between;padding:13px 14px;background:#111;border:1px solid #1d1d1d;border-radius:12px;margin-bottom:8px;font-size:13px;}
+.info-row .k{color:#666;}
+.info-row .v{color:#f0f0f0;font-weight:500;}
+.danger{background:transparent;color:#ff4d00;border:1px solid rgba(255,77,0,0.3);width:100%;padding:14px;border-radius:12px;font-size:13px;cursor:pointer;margin-top:8px;}
+
+/* Bottom nav */
+.nav{position:absolute;bottom:0;left:0;right:0;height:74px;background:rgba(12,12,12,0.95);backdrop-filter:blur(10px);border-top:1px solid #1a1a1a;display:flex;align-items:center;padding:0 8px 12px;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:#444;transition:color 0.2s;padding-top:12px;}
+.nav-item.on{color:#c8ff00;}
+.nav-ico{font-size:20px;}
+.nav-lbl{font-size:9px;letter-spacing:0.5px;}
+
+/* Workout session overlay */
+.session{position:absolute;inset:0;background:#0a0a0a;display:none;flex-direction:column;padding:44px 24px 28px;z-index:50;}
+.session.active{display:flex;}
+.sess-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.sess-close{font-size:22px;color:#555;cursor:pointer;background:none;border:none;}
+.sess-count{font-size:12px;color:#555;}
+.sess-bar{width:100%;height:3px;background:#1a1a1a;border-radius:3px;margin-bottom:24px;overflow:hidden;}
+.sess-fill{height:100%;background:#c8ff00;transition:width 0.4s;}
+.sess-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.sess-ico{font-size:72px;margin-bottom:16px;}
+.sess-name{font-family:'Bebas Neue';font-size:40px;color:#f0f0f0;line-height:1;margin-bottom:8px;}
+.sess-target{font-family:'Bebas Neue';font-size:64px;color:#c8ff00;line-height:1;margin:10px 0;}
+.sess-timer{font-family:'Bebas Neue';font-size:88px;color:#c8ff00;line-height:1;margin:10px 0;}
+.sess-desc{font-size:13px;color:#666;line-height:1.6;max-width:240px;margin:0 auto 6px;}
+.sess-rest{font-size:13px;color:#ff6a2f;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.sess-actions{display:flex;flex-direction:column;gap:8px;}
+.sess-skip{background:transparent;color:#555;border:none;font-size:12px;cursor:pointer;padding:8px;}
+
+/* Completion */
+.done-screen{position:absolute;inset:0;background:#0a0a0a;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;z-index:60;}
+.done-screen.active{display:flex;}
+.done-emoji{font-size:80px;margin-bottom:16px;animation:pop 0.5s ease;}
+@keyframes pop{0%{transform:scale(0);}70%{transform:scale(1.2);}100%{transform:scale(1);}}
+.done-title{font-family:'Bebas Neue';font-size:44px;color:#c8ff00;line-height:1;margin-bottom:8px;}
+.done-sub{font-size:14px;color:#888;margin-bottom:24px;line-height:1.5;}
+.done-stats{display:flex;gap:24px;margin-bottom:28px;}
+.done-stat{text-align:center;}
+.done-stat-num{font-family:'Bebas Neue';font-size:32px;color:#f0f0f0;}
+.done-stat-lbl{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="phone" id="phone">
+
+<!-- ============ ONBOARDING ============ -->
+<!-- S1 -->
+<div class="screen active" id="s1">
+  <div class="logo">FIT<span>PATH</span></div>
+  <div class="tagline">Sport · Intizom · Natija</div>
+  <div class="hero-num">01</div>
+  <div class="s1-bottom">
+    <div class="big-title">O'ZINGNI<br><em>YANGITTAN</em><br>KASHF ET</div>
+    <div class="desc">Shaxsiy sport dasturing tayyor. Har kun kichik qadam — katta natija.</div>
+    <div class="loss-tag">⏳ <b>Bugun boshlamas ekansiz</b> — ertaga bir kun kechikasiz. Bir oyda 30 kun. 30 kun = yo'qotilgan natija.</div>
+    <button class="btn btn-center" onclick="go(2)">Hoziroq boshlash →</button>
+  </div>
+</div>
+
+<!-- S2: Email -->
+<div class="screen" id="s2">
+  <div class="dots" id="d2"></div>
+  <div class="label">Kirish</div>
+  <div class="s-title">EMAIL<br>MANZILINGIZ</div>
+  <div class="personal-tag">✦ Faqat siz uchun — dastur aynan sizga moslashadi. Boshqa hech kim bunday dastur olmaydi.</div>
+  <input class="inp" type="email" id="em" placeholder="sizning@email.com"/>
+  <div class="privacy"><b>🔒 Halol kafolat:</b> Ma'lumotingiz faqat sizniki.</div>
+  <div style="margin-top:auto;">
+    <button class="btn btn-primary" onclick="fromEmail()">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(1)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S3: Jins -->
+<div class="screen" id="s3">
+  <div class="dots" id="d3"></div>
+  <div class="qstep">1 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:11%"></div></div>
+  <div class="s-title">JINSINGIZ<br>QAYSI?</div>
+  <div class="personal-tag">✦ Har javob dasturingizni yanada aniqlashtiradi — bu faqat siz uchun.</div>
+  <div class="row2" style="margin-bottom:auto;">
+    <div class="opt2" onclick="sel2(this,'jins')"><div class="opt2-ico">👨</div><div class="opt2-txt">Erkak</div></div>
+    <div class="opt2" onclick="sel2(this,'jins')"><div class="opt2-ico">👩</div><div class="opt2-txt">Ayol</div></div>
+  </div>
+  <div style="margin-top:20px;">
+    <button class="btn btn-primary" onclick="go(4)">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(2)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S4: Yosh -->
+<div class="screen" id="s4">
+  <div class="dots" id="d4"></div>
+  <div class="qstep">2 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:22%"></div></div>
+  <div class="s-title">YOSHINGIZ<br>NECHIDA?</div>
+  <div class="personal-tag">✦ Yoshingizga qarab eng samarali mashqlar tanlanadi — aynan siz uchun.</div>
+  <div class="num-row">
+    <div class="num-btn" onclick="change('yosh',-1)">−</div>
+    <div class="num-val" id="yosh-val">25</div>
+    <div class="num-btn" onclick="change('yosh',1)">+</div>
+  </div>
+  <div class="num-unit">yosh</div>
+  <div style="margin-top:auto;">
+    <button class="btn btn-primary" onclick="go(5)">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(3)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S5: Boy -->
+<div class="screen" id="s5">
+  <div class="dots" id="d5"></div>
+  <div class="qstep">3 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:33%"></div></div>
+  <div class="s-title">BO'YINGIZ<br>QANCHA?</div>
+  <div class="personal-tag">✦ Bo'yingiz — dasturingizni boshqalarnikidan farqlaydi.</div>
+  <div class="num-row">
+    <div class="num-btn" onclick="change('boy',-1)">−</div>
+    <div class="num-val" id="boy-val">170</div>
+    <div class="num-btn" onclick="change('boy',1)">+</div>
+  </div>
+  <div class="num-unit">sm</div>
+  <div style="margin-top:auto;">
+    <button class="btn btn-primary" onclick="go(6)">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(4)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S6: Vazn -->
+<div class="screen" id="s6">
+  <div class="dots" id="d6"></div>
+  <div class="qstep">4 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:44%"></div></div>
+  <div class="s-title">VAZNINGIZ<br>QANCHA?</div>
+  <div class="personal-tag">✦ Vazningiz — siz uchun aniq kaloriya va mashq intensivligini belgilaydi.</div>
+  <div class="num-row">
+    <div class="num-btn" onclick="change('vazn',-1)">−</div>
+    <div class="num-val" id="vazn-val">70</div>
+    <div class="num-btn" onclick="change('vazn',1)">+</div>
+  </div>
+  <div class="num-unit">kg</div>
+  <div style="margin-top:auto;">
+    <button class="btn btn-primary" onclick="go(7)">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(5)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S7: Vaqt -->
+<div class="screen" id="s7">
+  <div class="dots" id="d7"></div>
+  <div class="qstep">5 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:55%"></div></div>
+  <div class="s-title">KUN ICHIDA<br>VAQTINGIZ?</div>
+  <div class="s-sub">Har daqiqa muhim — o'zingizga mos tanlang</div>
+  <div class="time-grid">
+    <div class="topt" onclick="selT(this,'15 daqiqa')"><div class="topt-ico">⚡</div><div class="topt-main">15</div><div class="topt-sub">daqiqa</div></div>
+    <div class="topt" onclick="selT(this,'30 daqiqa')"><div class="topt-ico">🔥</div><div class="topt-main">30</div><div class="topt-sub">daqiqa</div></div>
+    <div class="topt" onclick="selT(this,'45 daqiqa')"><div class="topt-ico">💪</div><div class="topt-main">45</div><div class="topt-sub">daqiqa</div></div>
+    <div class="topt" onclick="selT(this,'60+ daqiqa')"><div class="topt-ico">🏆</div><div class="topt-main">60+</div><div class="topt-sub">daqiqa</div></div>
+  </div>
+  <div style="margin-top:14px;">
+    <button class="btn btn-primary" onclick="go(8)">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(6)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S8: Qayerda -->
+<div class="screen" id="s8">
+  <div class="dots" id="d8"></div>
+  <div class="qstep">6 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:66%"></div></div>
+  <div class="s-title">QAYERDA<br>SHUG'ULLANASIZ?</div>
+  <div class="personal-tag">✦ Joyingizga qarab maxsus dastur tuziladi — boshqa ilova buni qilmaydi.</div>
+  <div class="row3" style="margin-bottom:auto;">
+    <div class="opt3" onclick="sel3(this,'joy')"><div class="opt3-ico">🏠</div><div class="opt3-txt">Uyda</div></div>
+    <div class="opt3" onclick="sel3(this,'joy')"><div class="opt3-ico">🌳</div><div class="opt3-txt">Ko'chada</div></div>
+    <div class="opt3" onclick="sel3(this,'joy')"><div class="opt3-ico">🏋️</div><div class="opt3-txt">Zalda</div></div>
+  </div>
+  <div style="margin-top:20px;">
+    <button class="btn btn-primary" onclick="go(9)">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(7)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S9: Natija muddati -->
+<div class="screen" id="s9">
+  <div class="dots" id="d9"></div>
+  <div class="qstep">7 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:77%"></div></div>
+  <div class="s-title">QACHON<br>NATIJA OLASIZ?</div>
+  <div class="s-sub">Qanchalik erta boshlasangiz — shunchalik tez ko'rasiz</div>
+  <div class="natija-grid">
+    <div class="nopt" onclick="selN(this,'2 oy')"><div class="nopt-kun">2</div><div class="nopt-label">oy</div><div class="nopt-badge">Boshlang'ich</div></div>
+    <div class="nopt" onclick="selN(this,'3 oy')"><div class="nopt-kun">3</div><div class="nopt-label">oy</div><div class="nopt-badge">Barqaror</div></div>
+    <div class="nopt" onclick="selN(this,'6 oy')"><div class="nopt-kun">6</div><div class="nopt-label">oy</div><div class="nopt-badge">To'liq o'zgarish</div></div>
+    <div class="nopt" onclick="selN(this,'1 yil')"><div class="nopt-kun">1</div><div class="nopt-label">yil</div><div class="nopt-badge">Yangi hayot</div></div>
+  </div>
+  <div style="margin-top:14px;">
+    <button class="btn btn-primary" onclick="go(10)">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(8)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S10: Maqsad -->
+<div class="screen" id="s10">
+  <div class="dots" id="d10"></div>
+  <div class="qstep">8 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:88%"></div></div>
+  <div class="s-title">ASOSIY<br>MAQSAD?</div>
+  <div class="personal-tag">✦ Maqsadingiz — dasturingizning yuragi. Faqat siz uchun optimallashadi.</div>
+  <div class="opts">
+    <div class="opt" onclick="selM(this)"><div class="opt-ico">💪</div><div class="opt-txt">Muskullarni rivojlantirish</div><div class="opt-chk"></div></div>
+    <div class="opt" onclick="selM(this)"><div class="opt-ico">🏃</div><div class="opt-txt">Chidamlilikni oshirish</div><div class="opt-chk"></div></div>
+    <div class="opt" onclick="selM(this)"><div class="opt-ico">⚖️</div><div class="opt-txt">Vazn yo'qotish</div><div class="opt-chk"></div></div>
+    <div class="opt" onclick="selM(this)"><div class="opt-ico">🧘</div><div class="opt-txt">Sog'lik va energiya</div><div class="opt-chk"></div></div>
+  </div>
+  <div style="margin-top:12px;">
+    <button class="btn btn-primary" onclick="go(11)">Davom etish →</button>
+    <button class="btn btn-ghost" onclick="go(9)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S11: Bildirnoma -->
+<div class="screen" id="s11">
+  <div class="dots" id="d11"></div>
+  <div class="qstep">9 / 9 savol</div>
+  <div class="qbar"><div class="qfill" style="width:100%"></div></div>
+  <div class="s-title">BILDIRNOMA<br>SOZLASH</div>
+  <div class="s-sub">Eslatma o'chirgan odamlar 3x kam natija oladi</div>
+  <div style="flex:1;">
+    <div class="toggle-row">
+      <div><div class="toggle-label">🌅 Ertalab eslatma</div><div class="toggle-sub">06:00 — 09:00 oralig'ida</div></div>
+      <div class="toggle on" id="t1" onclick="toggl('t1')"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="toggle-label">☀️ Tushda eslatma</div><div class="toggle-sub">12:00 — 14:00 oralig'ida</div></div>
+      <div class="toggle" id="t2" onclick="toggl('t2')"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="toggle-label">🌙 Kechqurun eslatma</div><div class="toggle-sub">18:00 — 21:00 oralig'ida</div></div>
+      <div class="toggle" id="t3" onclick="toggl('t3')"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="toggle-row">
+      <div><div class="toggle-label">🏆 Haftalik hisobot</div><div class="toggle-sub">Natijalar va statistika</div></div>
+      <div class="toggle on" id="t4" onclick="toggl('t4')"><div class="toggle-knob"></div></div>
+    </div>
+  </div>
+  <div style="margin-top:12px;">
+    <button class="btn btn-primary" onclick="finishOnboarding()">Dasturni tayyorla ⚡</button>
+    <button class="btn btn-ghost" onclick="go(10)">← Orqaga</button>
+  </div>
+</div>
+
+<!-- S12: Natija -->
+<div class="screen" id="s12">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div class="sico">⚡</div>
+    <div class="s-title" style="margin-bottom:4px;">SIZNING<br><span style="color:#c8ff00;">DASTURINGIZ</span></div>
+    <div class="loss-small">⏳ Bugun boshlamasangiz — bu natijalarni kechroq ko'rasiz.</div>
+    <div class="res-grid">
+      <div class="res-card"><div class="res-label">Jins</div><div class="res-val" id="r-jins">—</div></div>
+      <div class="res-card"><div class="res-label">Yosh</div><div class="res-val" id="r-yosh">—</div></div>
+      <div class="res-card"><div class="res-label">Bo'y</div><div class="res-val" id="r-boy">—</div></div>
+      <div class="res-card"><div class="res-label">Vazn</div><div class="res-val" id="r-vazn">—</div></div>
+      <div class="res-card"><div class="res-label">Vaqt</div><div class="res-val" id="r-vaqt">—</div></div>
+      <div class="res-card"><div class="res-label">Joy</div><div class="res-val" id="r-joy">—</div></div>
+      <div class="res-card"><div class="res-label">Muddat</div><div class="res-val" id="r-muddat">—</div></div>
+      <div class="res-card"><div class="res-label">Maqsad</div><div class="res-val" id="r-maqsad" style="font-size:13px;padding-top:2px;">—</div></div>
+    </div>
+  </div>
+  <button class="btn btn-primary" onclick="enterApp()">Ilovaga kirish ⚡</button>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div class="app" id="app">
+  <div class="app-body">
+
+    <!-- HOME -->
+    <div class="view active" id="v-home">
+      <div class="greet-row">
+        <div>
+          <div class="greet-hi" id="home-hi">Assalomu alaykum 👋</div>
+          <div class="greet-name" id="home-name">CHEMPION</div>
+        </div>
+        <div class="avatar">🔥</div>
+      </div>
+      <div class="stat-strip">
+        <div class="stat-box"><div class="stat-num" id="st-streak">0</div><div class="stat-lbl">Streak</div></div>
+        <div class="stat-box"><div class="stat-num" id="st-total">0</div><div class="stat-lbl">Mashg'ulot</div></div>
+        <div class="stat-box"><div class="stat-num" id="st-kcal">0</div><div class="stat-lbl">Kkal</div></div>
+      </div>
+      <div class="today-card" id="today-card"></div>
+      <div class="sec-title">Bugungi mashqlar</div>
+      <div id="home-ex-list"></div>
+    </div>
+
+    <!-- PROGRAMS -->
+    <div class="view" id="v-prog">
+      <div class="greet-name" style="font-size:30px;margin-bottom:4px;">DASTURLAR</div>
+      <div class="s-sub">Maqsadingizga mos dasturni tanlang</div>
+      <div id="prog-list"></div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="view" id="v-progress">
+      <div class="greet-name" style="font-size:30px;margin-bottom:4px;">PROGRESS</div>
+      <div class="s-sub">So'nggi 28 kun</div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="sec-title">Vazn kuzatuvi</div>
+      <div class="weight-log">
+        <div class="weight-input-row">
+          <input class="inp" type="number" id="w-input" placeholder="Bugungi vazn (kg)"/>
+          <button class="w-add" onclick="addWeight()">+</button>
+        </div>
+        <div id="w-list"></div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="view" id="v-prof">
+      <div class="prof-head">
+        <div class="prof-avatar" id="prof-emoji">🏃</div>
+        <div class="prof-email" id="prof-email">—</div>
+        <div class="prof-goal" id="prof-goal">—</div>
+      </div>
+      <div id="prof-info"></div>
+      <button class="danger" onclick="resetAll()">Onboardingni qayta o'tish</button>
+    </div>
+
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="nav">
+    <div class="nav-item on" data-view="home" onclick="nav('home')"><div class="nav-ico">🏠</div><div class="nav-lbl">Bosh</div></div>
+    <div class="nav-item" data-view="prog" onclick="nav('prog')"><div class="nav-ico">📋</div><div class="nav-lbl">Dasturlar</div></div>
+    <div class="nav-item" data-view="progress" onclick="nav('progress')"><div class="nav-ico">📊</div><div class="nav-lbl">Progress</div></div>
+    <div class="nav-item" data-view="prof" onclick="nav('prof')"><div class="nav-ico">👤</div><div class="nav-lbl">Profil</div></div>
+  </div>
+</div>
+
+<!-- ============ WORKOUT SESSION ============ -->
+<div class="session" id="session">
+  <div class="sess-top">
+    <button class="sess-close" onclick="quitSession()">✕</button>
+    <div class="sess-count" id="sess-count">1 / 6</div>
+  </div>
+  <div class="sess-bar"><div class="sess-fill" id="sess-fill"></div></div>
+  <div class="sess-center" id="sess-center"></div>
+  <div class="sess-actions" id="sess-actions"></div>
+</div>
+
+<!-- ============ COMPLETION ============ -->
+<div class="done-screen" id="done-screen">
+  <div class="done-emoji">🏆</div>
+  <div class="done-title">ZO'R ISH!</div>
+  <div class="done-sub">Bugungi mashg'ulotni yakunladingiz.<br>Ertaga ham shu zarba bilan davom et!</div>
+  <div class="done-stats">
+    <div class="done-stat"><div class="done-stat-num" id="done-ex">0</div><div class="done-stat-lbl">Mashq</div></div>
+    <div class="done-stat"><div class="done-stat-num" id="done-min">0</div><div class="done-stat-lbl">Daqiqa</div></div>
+    <div class="done-stat"><div class="done-stat-num" id="done-kcal">0</div><div class="done-stat-lbl">Kkal</div></div>
+  </div>
+  <button class="btn btn-primary" style="max-width:240px;" onclick="closeDone()">Davom etish →</button>
+</div>
+
+</div>
+</div>
+
+<script>
+/* ====================== STATE ====================== */
+var cur=1,total=11;
+var data={yosh:25,boy:170,vazn:70};
+var mins={yosh:10,boy:120,vazn:30};
+var maxs={yosh:80,boy:220,vazn:200};
+var sel_jins='—',sel_vaqt='30 daqiqa',sel_joy='Uyda',sel_muddat='3 oy',sel_maqsad='Sog\'lik va energiya';
+
+var STORE_KEY='fitpath_data_v1';
+var app={profile:{},progress:{streak:0,total:0,kcal:0,days:[],weights:[]},activeProgram:'muscle'};
+
+function save(){localStorage.setItem(STORE_KEY,JSON.stringify(app));}
+function load(){
+  try{var s=localStorage.getItem(STORE_KEY);if(s){app=JSON.parse(s);return true;}}catch(e){}
+  return false;
+}
+
+/* ====================== EXERCISE LIBRARY ====================== */
+var EXERCISES={
+  pushup:{name:'Otjimanish',emoji:'🤸',type:'reps',desc:'Qo\'llaringizni yelka kengligida qo\'ying. Tanani to\'g\'ri tuting va pastga tushib-ko\'tariling.',kcal:7},
+  squat:{name:'O\'tirib-turish',emoji:'🦵',type:'reps',desc:'Oyoqlaringizni yelka kengligida qo\'ying. Orqangizni to\'g\'ri tutib, pastga o\'tiring.',kcal:6},
+  plank:{name:'Planka',emoji:'🧘',type:'time',desc:'Tirsaklaringizga tayanib, tanani to\'g\'ri chiziq holatida ushlab turing.',kcal:4},
+  lunge:{name:'Old qadam (Lunge)',emoji:'🚶',type:'reps',desc:'Bir oyoq bilan oldinga qadam tashlab, tizzangizni 90 darajaga buking.',kcal:6},
+  burpee:{name:'Burpi',emoji:'🔥',type:'reps',desc:'O\'tirish, planka, otjimanish va sakrashni birlashtiring. Eng kuchli mashq!',kcal:10},
+  jumping:{name:'Sakrash (Jumping Jack)',emoji:'⭐',type:'time',desc:'Sakrab oyoq va qo\'llaringizni bir vaqtda yoying va yiging.',kcal:8},
+  crunch:{name:'Press (Crunch)',emoji:'🎯',type:'reps',desc:'Chalqancha yotib, yelkangizni qorin mushaklari bilan ko\'taring.',kcal:5},
+  mountain:{name:'Alpinist (Mountain Climber)',emoji:'⛰️',type:'time',desc:'Planka holatida tizzalaringizni navbatma-navbat ko\'kragingizga torting.',kcal:9},
+  bridge:{name:'Ko\'prik (Glute Bridge)',emoji:'🌉',type:'reps',desc:'Chalqancha yotib, dumbangizni yuqoriga ko\'taring va siqing.',kcal:5},
+  highknee:{name:'Tizza ko\'tarish',emoji:'🏃',type:'time',desc:'Joyida turib tizzalaringizni baland-baland ko\'tarib yuguring.',kcal:8}
+};
+
+/* ====================== PROGRAMS ====================== */
+var PROGRAMS={
+  muscle:{name:'Kuch & Muskul',emoji:'💪',tag:'Muskullarni rivojlantirish',desc:'Kuch va muskul massasini oshirishga qaratilgan dastur.',
+    ex:['pushup','squat','lunge','plank','bridge','crunch']},
+  endurance:{name:'Chidamlilik',emoji:'🏃',tag:'Chidamlilikni oshirish',desc:'Yurak-qon tomir va umumiy chidamlilikni kuchaytiradi.',
+    ex:['jumping','highknee','mountain','burpee','squat','plank']},
+  weightloss:{name:'Yog\' yoqish',emoji:'⚖️',tag:'Vazn yo\'qotish',desc:'Kaloriya yoqib, vazn tashlashga yo\'naltirilgan intensiv dastur.',
+    ex:['burpee','jumping','mountain','highknee','squat','lunge']},
+  health:{name:'Sog\'lik & Energiya',emoji:'🧘',tag:'Sog\'lik va energiya',desc:'Yengil, lekin samarali — energiya va kayfiyat uchun.',
+    ex:['squat','bridge','plank','crunch','highknee','lunge']}
+};
+
+var GOAL_TO_PROG={'Muskullarni rivojlantirish':'muscle','Chidamlilikni oshirish':'endurance','Vazn yo\'qotish':'weightloss','Sog\'lik va energiya':'health'};
+
+function timeToCount(t){
+  if(t.indexOf('15')===0)return 4;
+  if(t.indexOf('30')===0)return 6;
+  if(t.indexOf('45')===0)return 8;
+  return 10;
+}
+
+/* ====================== ONBOARDING DOTS ====================== */
+for(var i=2;i<=12;i++){
+  (function(sid){
+    var el=document.getElementById('d'+sid);
+    if(!el)return;
+    var html='';
+    for(var j=0;j<total;j++) html+='<div class="dot'+(j===sid-2?' on':'')+'"></div>';
+    el.innerHTML=html;
+  })(i);
+}
+
+/* ====================== ONBOARDING NAV ====================== */
+function go(n){
+  document.getElementById('s'+cur).classList.remove('active');
+  cur=n;
+  document.getElementById('s'+n).classList.add('active');
+}
+function fromEmail(){
+  var v=document.getElementById('em').value;
+  if(!v||!v.includes('@')){
+    var inp=document.getElementById('em');
+    inp.style.borderColor='#ff4d00';
+    setTimeout(function(){inp.style.borderColor='';},1000);
+    return;
+  }
+  go(3);
+}
+function change(key,d){
+  data[key]=Math.min(maxs[key],Math.max(mins[key],data[key]+d));
+  document.getElementById(key+'-val').textContent=data[key];
+}
+function sel2(el,group){
+  el.closest('.row2').querySelectorAll('.opt2').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  if(group==='jins') sel_jins=el.querySelector('.opt2-txt').textContent;
+}
+function sel3(el,group){
+  el.closest('.row3').querySelectorAll('.opt3').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  if(group==='joy') sel_joy=el.querySelector('.opt3-txt').textContent;
+}
+function selT(el,val){
+  el.closest('.time-grid').querySelectorAll('.topt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  sel_vaqt=val;
+}
+function selN(el,val){
+  el.closest('.natija-grid').querySelectorAll('.nopt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  sel_muddat=val;
+}
+function selM(el){
+  el.closest('.opts').querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  sel_maqsad=el.querySelector('.opt-txt').textContent;
+}
+function toggl(id){
+  document.getElementById(id).classList.toggle('on');
+}
+function finishOnboarding(){
+  // save profile
+  app.profile={
+    email:document.getElementById('em').value||'mehmon@fitpath.uz',
+    jins:sel_jins,yosh:data.yosh,boy:data.boy,vazn:data.vazn,
+    vaqt:sel_vaqt,joy:sel_joy,muddat:sel_muddat,maqsad:sel_maqsad
+  };
+  app.activeProgram=GOAL_TO_PROG[sel_maqsad]||'health';
+  if(!app.progress)app.progress={streak:0,total:0,kcal:0,days:[],weights:[]};
+  if(app.profile.vazn) app.progress.weights=[{date:todayStr(),val:app.profile.vazn}];
+  save();
+  // fill result screen
+  document.getElementById('r-jins').textContent=sel_jins;
+  document.getElementById('r-yosh').textContent=data.yosh+' yosh';
+  document.getElementById('r-boy').textContent=data.boy+' sm';
+  document.getElementById('r-vazn').textContent=data.vazn+' kg';
+  document.getElementById('r-vaqt').textContent=sel_vaqt;
+  document.getElementById('r-joy').textContent=sel_joy;
+  document.getElementById('r-muddat').textContent=sel_muddat;
+  document.getElementById('r-maqsad').textContent=sel_maqsad;
+  go(12);
+}
+
+/* ====================== ENTER MAIN APP ====================== */
+function enterApp(){
+  document.getElementById('s12').classList.remove('active');
+  document.getElementById('app').classList.add('active');
+  renderApp();
+}
+
+function todayStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+
+/* ====================== RENDER APP ====================== */
+function renderApp(){
+  renderHome();
+  renderPrograms();
+  renderProgress();
+  renderProfile();
+}
+
+function getName(){
+  var e=(app.profile.email||'').split('@')[0];
+  return e?e.toUpperCase():'CHEMPION';
+}
+
+function renderHome(){
+  document.getElementById('home-name').textContent=getName();
+  document.getElementById('st-streak').textContent=app.progress.streak||0;
+  document.getElementById('st-total').textContent=app.progress.total||0;
+  document.getElementById('st-kcal').textContent=app.progress.kcal||0;
+
+  var prog=PROGRAMS[app.activeProgram]||PROGRAMS.health;
+  var count=timeToCount(app.profile.vaqt||'30 daqiqa');
+  var exList=prog.ex.slice(0,count);
+  var doneToday=app.progress.days&&app.progress.days.indexOf(todayStr())>-1;
+
+  var tc=document.getElementById('today-card');
+  if(doneToday){
+    tc.innerHTML='<div class="today-tag">Bugun</div><div class="today-done">✅ Bugungi mashg\'ulot bajarildi!</div>';
+  }else{
+    tc.innerHTML='<div class="today-tag">Bugungi mashg\'ulot</div>'+
+      '<div class="today-title">'+prog.name.toUpperCase()+'</div>'+
+      '<div class="today-meta"><span>🏋️ '+exList.length+' mashq</span><span>⏱️ '+(app.profile.vaqt||'30 daqiqa')+'</span></div>'+
+      '<button class="btn btn-primary" onclick="startSession()">Boshlash →</button>';
+  }
+
+  var html='';
+  for(var i=0;i<exList.length;i++){
+    var ex=EXERCISES[exList[i]];
+    var tgt=ex.type==='reps'?'12 marta × 3':'40 son × 3';
+    html+='<div class="ex-item"><div class="ex-ico">'+ex.emoji+'</div>'+
+      '<div class="ex-info"><div class="ex-name">'+ex.name+'</div><div class="ex-sub">'+tgt+'</div></div>'+
+      '<div class="ex-badge">'+(ex.type==='reps'?'Takror':'Vaqt')+'</div></div>';
+  }
+  document.getElementById('home-ex-list').innerHTML=html;
+}
+
+function renderPrograms(){
+  var html='';
+  for(var key in PROGRAMS){
+    var p=PROGRAMS[key];
+    var act=key===app.activeProgram;
+    html+='<div class="prog-card'+(act?' active-prog':'')+'" onclick="setProgram(\''+key+'\')">'+
+      '<div class="prog-top"><div class="prog-ico">'+p.emoji+'</div>'+
+      '<div><div class="prog-name">'+p.name+'</div><div class="prog-tag">'+p.tag+'</div></div>'+
+      (act?'<div class="prog-cur">Faol</div>':'')+'</div>'+
+      '<div class="prog-desc">'+p.desc+'</div></div>';
+  }
+  document.getElementById('prog-list').innerHTML=html;
+}
+
+function setProgram(key){
+  app.activeProgram=key;
+  save();
+  renderPrograms();
+  renderHome();
+}
+
+function renderProgress(){
+  // calendar last 28 days
+  var html='';
+  var today=new Date();
+  for(var i=27;i>=0;i--){
+    var d=new Date();d.setDate(today.getDate()-i);
+    var ds=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+    var done=app.progress.days&&app.progress.days.indexOf(ds)>-1;
+    var isToday=(i===0);
+    html+='<div class="cal-cell'+(done?' done':'')+(isToday?' today':'')+'">'+d.getDate()+'</div>';
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+
+  // weights
+  var wl='';
+  var ws=(app.progress.weights||[]).slice().reverse();
+  if(ws.length===0){wl='<div style="font-size:12px;color:#444;text-align:center;padding:8px;">Hali vazn kiritilmagan</div>';}
+  for(var j=0;j<ws.length;j++){
+    wl+='<div class="w-item"><span class="w-date">'+ws[j].date+'</span><span class="w-val">'+ws[j].val+' kg</span></div>';
+  }
+  document.getElementById('w-list').innerHTML=wl;
+}
+
+function addWeight(){
+  var v=parseFloat(document.getElementById('w-input').value);
+  if(!v||v<20||v>300)return;
+  if(!app.progress.weights)app.progress.weights=[];
+  app.progress.weights.push({date:todayStr(),val:v});
+  document.getElementById('w-input').value='';
+  save();
+  renderProgress();
+}
+
+function renderProfile(){
+  var p=app.profile;
+  document.getElementById('prof-email').textContent=p.email||'—';
+  document.getElementById('prof-goal').textContent=p.maqsad||'—';
+  document.getElementById('prof-emoji').textContent=p.jins==='Ayol'?'🏃‍♀️':'🏃';
+  var rows=[
+    ['Jins',p.jins],['Yosh',p.yosh+' yosh'],['Bo\'y',p.boy+' sm'],
+    ['Vazn',p.vazn+' kg'],['Kunlik vaqt',p.vaqt],['Joy',p.joy],['Maqsad muddati',p.muddat]
+  ];
+  var html='';
+  for(var i=0;i<rows.length;i++){
+    html+='<div class="info-row"><span class="k">'+rows[i][0]+'</span><span class="v">'+(rows[i][1]||'—')+'</span></div>';
+  }
+  document.getElementById('prof-info').innerHTML=html;
+}
+
+function resetAll(){
+  if(!confirm('Hamma ma\'lumotlar o\'chiriladi va onboarding qayta boshlanadi. Davom etasizmi?'))return;
+  localStorage.removeItem(STORE_KEY);
+  location.reload();
+}
+
+/* ====================== NAVIGATION ====================== */
+function nav(view){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  document.getElementById('v-'+view).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.toggle('on',n.dataset.view===view);});
+  document.querySelector('.app-body').scrollTop=0;
+}
+
+/* ====================== WORKOUT SESSION ====================== */
+var sess={list:[],idx:0,phase:'work',timer:null,kcal:0,restLeft:0,timeLeft:0};
+
+function startSession(){
+  var prog=PROGRAMS[app.activeProgram]||PROGRAMS.health;
+  var count=timeToCount(app.profile.vaqt||'30 daqiqa');
+  sess.list=prog.ex.slice(0,count);
+  sess.idx=0;sess.phase='work';sess.kcal=0;
+  document.getElementById('session').classList.add('active');
+  showExercise();
+}
+
+function showExercise(){
+  clearInterval(sess.timer);
+  var key=sess.list[sess.idx];
+  var ex=EXERCISES[key];
+  document.getElementById('sess-count').textContent=(sess.idx+1)+' / '+sess.list.length;
+  document.getElementById('sess-fill').style.width=((sess.idx)/sess.list.length*100)+'%';
+  var c=document.getElementById('sess-center');
+  var a=document.getElementById('sess-actions');
+
+  if(ex.type==='reps'){
+    c.innerHTML='<div class="sess-ico">'+ex.emoji+'</div>'+
+      '<div class="sess-name">'+ex.name+'</div>'+
+      '<div class="sess-target">12 × 3</div>'+
+      '<div class="sess-desc">'+ex.desc+'</div>';
+    a.innerHTML='<button class="btn btn-primary" onclick="nextExercise()">Bajardim ✓</button>'+
+      '<button class="sess-skip" onclick="nextExercise()">O\'tkazib yuborish</button>';
+  }else{
+    sess.timeLeft=40;
+    c.innerHTML='<div class="sess-ico">'+ex.emoji+'</div>'+
+      '<div class="sess-name">'+ex.name+'</div>'+
+      '<div class="sess-timer" id="sess-timer">40</div>'+
+      '<div class="sess-desc">'+ex.desc+'</div>';
+    a.innerHTML='<button class="btn btn-primary" id="sess-startbtn" onclick="startTimer()">Boshlash ▶</button>'+
+      '<button class="sess-skip" onclick="nextExercise()">O\'tkazib yuborish</button>';
+  }
+}
+
+function startTimer(){
+  document.getElementById('sess-startbtn').textContent='Davom etmoqda...';
+  document.getElementById('sess-startbtn').disabled=true;
+  sess.timer=setInterval(function(){
+    sess.timeLeft--;
+    var t=document.getElementById('sess-timer');
+    if(t)t.textContent=sess.timeLeft;
+    if(sess.timeLeft<=0){clearInterval(sess.timer);nextExercise();}
+  },1000);
+}
+
+function nextExercise(){
+  clearInterval(sess.timer);
+  var ex=EXERCISES[sess.list[sess.idx]];
+  sess.kcal+=ex.kcal*3;
+  sess.idx++;
+  if(sess.idx>=sess.list.length){finishSession();return;}
+  showRest();
+}
+
+function showRest(){
+  sess.restLeft=15;
+  var c=document.getElementById('sess-center');
+  var a=document.getElementById('sess-actions');
+  document.getElementById('sess-fill').style.width=((sess.idx)/sess.list.length*100)+'%';
+  var nextEx=EXERCISES[sess.list[sess.idx]];
+  c.innerHTML='<div class="sess-rest">Dam olish</div>'+
+    '<div class="sess-timer" id="rest-timer">15</div>'+
+    '<div class="sess-desc">Keyingi: <b style="color:#c8ff00">'+nextEx.name+'</b></div>';
+  a.innerHTML='<button class="btn btn-primary" onclick="skipRest()">O\'tkazish →</button>';
+  sess.timer=setInterval(function(){
+    sess.restLeft--;
+    var t=document.getElementById('rest-timer');
+    if(t)t.textContent=sess.restLeft;
+    if(sess.restLeft<=0){clearInterval(sess.timer);showExercise();}
+  },1000);
+}
+function skipRest(){clearInterval(sess.timer);showExercise();}
+
+function quitSession(){
+  if(!confirm('Mashg\'ulotni to\'xtatasizmi? Progress saqlanmaydi.'))return;
+  clearInterval(sess.timer);
+  document.getElementById('session').classList.remove('active');
+}
+
+function finishSession(){
+  clearInterval(sess.timer);
+  document.getElementById('session').classList.remove('active');
+  // update progress
+  var ts=todayStr();
+  if(!app.progress.days)app.progress.days=[];
+  if(app.progress.days.indexOf(ts)===-1){
+    app.progress.days.push(ts);
+    app.progress.total=(app.progress.total||0)+1;
+    app.progress.streak=(app.progress.streak||0)+1;
+  }
+  app.progress.kcal=(app.progress.kcal||0)+sess.kcal;
+  save();
+  // completion screen
+  var mins=parseInt(app.profile.vaqt)||30;
+  document.getElementById('done-ex').textContent=sess.list.length;
+  document.getElementById('done-min').textContent=mins;
+  document.getElementById('done-kcal').textContent=sess.kcal;
+  document.getElementById('done-screen').classList.add('active');
+}
+
+function closeDone(){
+  document.getElementById('done-screen').classList.remove('active');
+  renderApp();
+  nav('home');
+}
+
+/* ====================== INIT ====================== */
+(function init(){
+  if(load() && app.profile && app.profile.email){
+    // skip onboarding
+    document.getElementById('s1').classList.remove('active');
+    document.getElementById('app').classList.add('active');
+    renderApp();
+  }
+})();
+</script>
+</body>
+</html>
